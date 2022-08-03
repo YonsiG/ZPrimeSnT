@@ -24,18 +24,18 @@
   // 2018: https://twiki.cern.ch/twiki/bin/view/CMS/PdmVDatasetsUL2018
   vector<TString> years = { };
   years.push_back("2018");
-  years.push_back("2017");
-  years.push_back("2016APV");
-  years.push_back("2016nonAPV");
-
+//  years.push_back("2017");
+//  years.push_back("2016APV");
+//  years.push_back("2016nonAPV");
+ 
   vector<TString> samples = { };
   map<TString,TString> sample_names = { };
   map<TString,map<TString,vector<TString>>> sample_prod = { };
 
   bool runOnSignalBeforeSkim = false; // To get yields before any selection, to be combined with writeOutYields_BeforeSel in ScanChain_Zp
 
-  bool run_data = 1;
-  bool run_MCbkg = 1;
+  bool run_data = 0;
+  bool run_MCbkg = 0;
   bool run_signal = 1;
   bool run_BFF = 0; // Should be enabled separately
 
@@ -173,8 +173,10 @@
 
   // Signals
   if(run_signal){
-    vector<TString> sigModel = { "Y3", "DY3", "DYp3", "B3mL2" };
-    vector<TString> sigMass = { /*"100",*/ "200", "250", "400", "550", "700", "850", "1000", "1250", "1500", "2000" };
+    //vector<TString> sigModel = { "Y3", "DY3", "DYp3", "B3mL2" };
+    //vector<TString> sigMass = { /*"100",*/ "200", "250", "400", "550", "700", "850", "1000", "1250", "1500", "2000" };
+    vector<TString> sigModel = { "Y3"};
+    vector<TString> sigMass = { /*"100",*/ "200"};
     for ( unsigned int imodel=0; imodel<sigModel.size(); imodel++ )
     {
       for ( unsigned int imass=0; imass<sigMass.size(); imass++ )

@@ -135,6 +135,10 @@ int ScanChain(TChain *ch, double genEventSumw, TString year, TString process, in
   float xsec = 1.0;
   bool isMC = true;
 
+  int Nbjet1 = 0, Nbjet2 = 0;
+  int total_number[13];
+  for (int i=0; i<13; i++) total_number[i]=0;
+
   if ( process.Contains("data") ) {
     isMC = false;
   }
@@ -734,7 +738,7 @@ int ScanChain(TChain *ch, double genEventSumw, TString year, TString process, in
     }
 
     for( unsigned int event = 0; event < tree->GetEntriesFast(); ++event) {
-
+//    for( unsigned int event = 0; event < 8000; ++event) {
       nt.GetEntry(event);
       tree->LoadTree(event);
 
@@ -1280,7 +1284,7 @@ int ScanChain(TChain *ch, double genEventSumw, TString year, TString process, in
         
         Jet_p4.push_back(jet_p4);
       }
-
+    total_number[0]++;
       // For test: use Run2018B, with exclusion of HEM15/16 affcted runs:
       if ( !isMC ) {
 	if ( !doHEMveto && useOnlyRun2018B && runnb >= HEM_startRun )
@@ -1362,7 +1366,7 @@ int ScanChain(TChain *ch, double genEventSumw, TString year, TString process, in
 	  }
 	}
       }
-
+//same here
       // Fill histos: sel0
       label = ">0 good PVs & MET Filters";
       slicedlabel = label;
@@ -1400,6 +1404,7 @@ int ScanChain(TChain *ch, double genEventSumw, TString year, TString process, in
       bool iso_req = ( nMu_iso > 1);
 
       if ( !id_req ) continue;
+      total_number[1]++;
       // Fill histos: sel1
       label = ">1 #mu w/ highPt ID, |dxy|<0.02 cm & |dz|<0.1 cm";
       slicedlabel = label;
@@ -1448,6 +1453,7 @@ int ScanChain(TChain *ch, double genEventSumw, TString year, TString process, in
       }
 
       if ( !pt_req ) continue;
+      total_number[2]++;
       // Fill histos: sel2
       label = ">1 #mu w/ pT>53 GeV & |eta|<2.4";
       slicedlabel = label;
@@ -1496,6 +1502,7 @@ int ScanChain(TChain *ch, double genEventSumw, TString year, TString process, in
       }
 
       if ( !iso_req ) continue;
+      total_number[3]++;
       // Fill histos: sel3
       label = ">1 #mu w/ track iso./pT<0.05 & track iso.<5 GeV";
       slicedlabel = label;
@@ -1558,7 +1565,9 @@ int ScanChain(TChain *ch, double genEventSumw, TString year, TString process, in
           else muMatchedToTrigObj.push_back(false);
         }
       }
+
       if ( !atLeastSelectedMu_matchedToTrigObj ) continue;
+      total_number[4]++;
       // Fill histos: sel4
       label = ">0 HLT match (dR<0.02)";
       slicedlabel = label;
@@ -1596,7 +1605,7 @@ int ScanChain(TChain *ch, double genEventSumw, TString year, TString process, in
         TVector3 mu_1(Muon_p4.at(cand_muons[i]).Px(),Muon_p4.at(cand_muons[i]).Py(),Muon_p4.at(cand_muons[i]).Pz());
         for ( unsigned int j=i+1; j<cand_muons.size(); j++ ) {
           if ( nt.Muon_pdgId().at(cand_muons[i]) + nt.Muon_pdgId().at(cand_muons[j]) != 0 ) continue; // Opposite sign, same flavor
-          if ( !(muMatchedToTrigObj[i] || muMatchedToTrigObj[j]) ) continue; // At least one muon in pair matched to HLT
+//          if ( !(muMatchedToTrigObj[i] || muMatchedToTrigObj[j]) ) continue; // At least one muon in pair matched to HLT
           TVector3 mu_2(Muon_p4.at(cand_muons[j]).Px(),Muon_p4.at(cand_muons[j]).Py(),Muon_p4.at(cand_muons[j]).Pz());
           if ( !(IsSeparated( mu_1, mu_2, 0.02 ) ) ) continue; // 3D angle between muons > pi - 0.02
           float m_ll = (Muon_p4.at(cand_muons[i])+Muon_p4.at(cand_muons[j])).M();
@@ -1613,7 +1622,7 @@ int ScanChain(TChain *ch, double genEventSumw, TString year, TString process, in
         if ( Zboson ) break;
       }
       if ( selectedPair_M < 0.0 || Zboson ) continue;
-
+      total_number[5]++;
       auto leadingMu_p4 = Muon_p4.at(leadingMu_idx);
       auto subleadingMu_p4 = Muon_p4.at(subleadingMu_idx);
       auto selectedPair_p4 = leadingMu_p4 + subleadingMu_p4;
@@ -1797,6 +1806,7 @@ int ScanChain(TChain *ch, double genEventSumw, TString year, TString process, in
       }
 
       if ( selectedPair_M < 175 ) continue;
+      total_number[6]++;
       // Fill histos: sel6
       label = "m_{#mu#mu}>175 GeV";
       slicedlabel = label;
@@ -2005,6 +2015,7 @@ int ScanChain(TChain *ch, double genEventSumw, TString year, TString process, in
       icutflow++;
 
       if ( extra_isotracks_lep.size() > 0 || extra_isotracks_chh.size() > 0 ) continue;
+      total_number[7]++;
       label = "Iso. track veto";
       slicedlabel = label;
       h_cutflow->Fill(icutflow,weight*factor);
@@ -2164,7 +2175,7 @@ int ScanChain(TChain *ch, double genEventSumw, TString year, TString process, in
 
       if ( cand_bJets_tight.size() < 1 && !doDYEnriched ) continue;
       if ( cand_bJets_tight.size() > 0 && doOnlyDYEnriched ) continue;
-
+      total_number[8]++;
       if ( isMC && bTagSF!=0 ) {
         if ( bTagSF==2 )
           weight *= ( btag_up_prob_DATA ==0 || btag_prob_MC == 0 ) ? 1.0 : btag_up_prob_DATA / btag_prob_MC;
@@ -2327,6 +2338,7 @@ int ScanChain(TChain *ch, double genEventSumw, TString year, TString process, in
       	     (minDPhi_b_MET < maxdphiobjmet) ||
       	     (maxDPhi_l_MET > TMath::Pi()-maxdphiobjmet) ||
       	     (maxDPhi_b_MET > TMath::Pi()-maxdphiobjmet) ) ) continue;
+      total_number[9]++;
       // Fill histos: sel9
       label = "E_{T}^{miss}<250 GeV (if aligned)";
       slicedlabel = label;
@@ -2366,6 +2378,9 @@ int ScanChain(TChain *ch, double genEventSumw, TString year, TString process, in
       }
 
       if (min_mlb > 175.0) {
+        total_number[10]++;
+        if (nbtagsel[1]) Nbjet1++;
+        if (nbtagsel[2]) Nbjet2++;
         // Fill histos: sel10
         label = "min m_{#mu b}>175 GeV";
         slicedlabel = label;
@@ -2486,6 +2501,22 @@ int ScanChain(TChain *ch, double genEventSumw, TString year, TString process, in
       }
 
     } // Event loop
+    cout<<"Nentries: "<<tree->GetEntriesFast()<<endl;
+    cout<<"Pass Cut0: "<<total_number[0]<<endl;
+    cout<<"Pass Cut1: "<<total_number[1]<<endl;
+    cout<<"Pass Cut2: "<<total_number[2]<<endl;
+    cout<<"Pass Cut3: "<<total_number[3]<<endl;
+    cout<<"Pass Cut4: "<<total_number[4]<<endl;
+    cout<<"Pass Cut5: "<<total_number[5]<<endl;
+    cout<<"Pass Cut6: "<<total_number[6]<<endl;
+    cout<<"Pass Cut7: "<<total_number[7]<<endl;
+    cout<<"Pass Cut8: "<<total_number[8]<<endl;
+    cout<<"Pass Cut9: "<<total_number[9]<<endl;
+    cout<<"Pass Cut10: "<<total_number[10]<<endl;
+    cout<<"Pass Cut11: "<<total_number[11]<<endl;
+    cout<<"Pass Cut12: "<<total_number[12]<<endl;
+    cout<<"Nb=1: "<<Nbjet1<<endl;
+    cout<<"Nb>=2: "<<Nbjet2<<endl;
 
     delete file;
 

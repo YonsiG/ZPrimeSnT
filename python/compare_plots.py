@@ -9,6 +9,18 @@ import plotUtils
 user = os.environ.get("USER")
 today= date.today().strftime("%b-%d-%Y")
 
+<<<<<<< Updated upstream
+=======
+#inDirRef = "./cpp/temp_data_looseCuts/"
+inDirRef = "./cpp/nominal/"
+inDirOther = "../ZPrimeSnT_muonSFSysUp/cpp/temp_data/"
+#outDir = "/home/users/"+user+"/public_html/Zprime/looseCuts/"
+outDir = "/home/users/"+user+"/public_html/Zprime/systematic_plots/muonSFSysUp/"
+if not os.path.exists(outDir):
+    os.makedirs(outDir)
+os.system('cp utils/index.php '+outDir)
+
+>>>>>>> Stashed changes
 doRatio = True
 extendedLegend = False
 shape = True
@@ -37,6 +49,15 @@ sampleMarkerSize=[]
 sampleMarkerSize.append(None)
 sampleMarkerSize.append(None)
 
+<<<<<<< Updated upstream
+=======
+sampleLegend=[]
+#sampleLegend.append("Loose cuts")
+#sampleLegend.append("Tight cuts")
+sampleLegend.append("nominal")
+sampleLegend.append("muonSFSysUp")
+
+>>>>>>> Stashed changes
 def get_files(samples,year,inDir):
 
     sampleDict=OrderedDict()
@@ -184,8 +205,11 @@ def draw_plot(sampleDictRef, sampleDictOther, refLegendEntry, otherLegendEntry, 
         yearenergy="%.1f fb^{-1} (%s, 13 TeV)"%(lumi,year)
     elif not shape:
         yearenergy="%.0f fb^{-1} (13 TeV)"%(lumi)
+<<<<<<< Updated upstream
     elif year=="all":
         yearenergy="(2016-2018, 13 TeV)"
+=======
+>>>>>>> Stashed changes
     else:
         yearenergy="(%s, 13 TeV)"%(year)
     if plotData:
@@ -216,6 +240,7 @@ def draw_plot(sampleDictRef, sampleDictOther, refLegendEntry, otherLegendEntry, 
         legend.SetLineWidth(0)
         legend.SetFillColor(0)
         legend.SetFillStyle(0)
+<<<<<<< Updated upstream
 
         minX = curPlotsRef[sample].GetXaxis().GetBinLowEdge(1)
         maxX = curPlotsRef[sample].GetXaxis().GetBinUpEdge(curPlotsRef[sample].GetNbinsX())
@@ -237,6 +262,25 @@ def draw_plot(sampleDictRef, sampleDictOther, refLegendEntry, otherLegendEntry, 
         sampleLegend=[]
         sampleLegend.append(refLegendEntry)
         sampleLegend.append(otherLegendEntry)
+=======
+
+        minX = curPlotsRef[sample].GetXaxis().GetBinLowEdge(1)
+        maxX = curPlotsRef[sample].GetXaxis().GetBinUpEdge(curPlotsRef[sample].GetNbinsX())
+
+        if "Y3" in sample or "DY3" in sample or "DYp3" in sample or "B3mL2" in sample:
+            model = sample.split("_")[0]
+            mass = sample.split("_")[1].lstrip("M")
+            legend.SetHeader(model+" (M="+mass+"GeV)")
+            if "mmumu" in curPlotsRef[sample].GetName():
+                if float(mass)*0.5>175.0:
+                    minX = float(mass)*0.65
+                    maxX = float(mass)*1.25
+                else:
+                    minX = 175.0
+                    maxX = float(mass)*1.25
+        else:
+            legend.SetHeader(sample)
+>>>>>>> Stashed changes
 
         if extendedLegend:
             legend.AddEntry(curPlotsRef[sample],sampleLegend[0]+" %1.2E"%(curPlotsRef[sample].Integral(0,-1)),"L")
@@ -248,7 +292,10 @@ def draw_plot(sampleDictRef, sampleDictOther, refLegendEntry, otherLegendEntry, 
         # Define canvas
         canvas = ROOT.TCanvas("canvas","canvas",800,800)
         refplot = copy.deepcopy(curPlotsRef[sample])
+<<<<<<< Updated upstream
         print sample, refplot.GetName()
+=======
+>>>>>>> Stashed changes
 
         h_axis = ROOT.TH1D()
         h_axis_ratio = ROOT.TH1D()
@@ -312,10 +359,15 @@ def draw_plot(sampleDictRef, sampleDictOther, refLegendEntry, otherLegendEntry, 
                     continue
                 if g_ratio.GetBinContent(b)>0.0 and g_ratio.GetBinContent(b)<minR:
                     minR = g_ratio.GetBinContent(b)
+<<<<<<< Updated upstream
                 if g_ratio.GetBinContent(b)>0.0 and g_ratio.GetBinContent(b)>maxR:
                     maxR = g_ratio.GetBinContent(b)
             minR = min(0.95, 0.95*minR)
             maxR = max(1.05, 1.05*maxR)
+=======
+            minR = 0.9*minR
+            maxR = max(1.05, 1.1*g_ratio.GetMaximum())
+>>>>>>> Stashed changes
             h_axis_ratio.GetYaxis().SetRangeUser(minR,maxR)
             h_axis_ratio.SetMinimum(minR)
             h_axis_ratio.SetMaximum(maxR)
@@ -420,12 +472,17 @@ def draw_plot(sampleDictRef, sampleDictOther, refLegendEntry, otherLegendEntry, 
         if shape:
             extension = extension+"_areaNormalized"
     
+<<<<<<< Updated upstream
         canvas.SaveAs(thisOutDir + plotname + extension + "_"+sample+".png")
+=======
+        canvas.SaveAs(outDir + plotname + extension + "_"+sample+".png")
+>>>>>>> Stashed changes
 
 # Main
 ROOT.gStyle.SetOptStat(0)
 ROOT.gROOT.SetBatch(1)
 
+<<<<<<< Updated upstream
 inDirRef = "./cpp/nominal/"
 legRef = "Nominal"
 inDirOther = []
@@ -474,6 +531,8 @@ for d in outDir:
         os.makedirs(d)
     os.system('cp utils/index.php '+d)
 
+=======
+>>>>>>> Stashed changes
 year="all"
 #year="2018"
 lumi=0.0 #fb^-1
@@ -490,6 +549,7 @@ elif year == "all":
 
 # Sample
 samplesRef = []
+<<<<<<< Updated upstream
 samplesRef.append("B3mL2_M200")
 samplesRef.append("B3mL2_M700")
 samplesRef.append("B3mL2_M1500")
@@ -499,12 +559,35 @@ samplesRef.append("B3mL2_M1500")
 #
 samplesOther = samplesRef
 
+=======
+samplesRef.append("Y3_M200")
+samplesRef.append("Y3_M400")
+samplesRef.append("Y3_M700")
+samplesRef.append("Y3_M1000")
+samplesRef.append("Y3_M1500")
+samplesRef.append("Y3_M2000")
+samplesRef.append("DY3_M200")
+samplesRef.append("DY3_M400")
+samplesRef.append("DY3_M700")
+samplesRef.append("DY3_M1000")
+samplesRef.append("DY3_M1500")
+samplesRef.append("DY3_M2000")
+samplesRef.append("B3mL2_M200")
+samplesRef.append("B3mL2_M400")
+samplesRef.append("B3mL2_M700")
+samplesRef.append("B3mL2_M1000")
+samplesRef.append("B3mL2_M1500")
+samplesRef.append("B3mL2_M2000")
+
+# List of plots
+>>>>>>> Stashed changes
 listofplots=[]
 listofplots.append("mmumu_sel10_mllinclusive_nBTag1p_MuDetAll")
 listofplots.append("mmumu_sel10_mllinclusive_nBTag1_MuDetAll")
 listofplots.append("mmumu_sel10_mllinclusive_nBTag2p_MuDetAll")
 toexclude = []
 
+<<<<<<< Updated upstream
 # Loop over variations
 for on,o in enumerate(inDirOther):
     # Open files
@@ -517,3 +600,20 @@ for on,o in enumerate(inDirOther):
                 continue
             draw_plot(sampleDictRef, sampleDictOther, legRef, legOther[on], outDir[on], plot, True , False, False, True, lumi, year)
             draw_plot(sampleDictRef, sampleDictOther, legRef, legOther[on], outDir[on], plot, False, False, False, True, lumi, year)
+=======
+#
+samplesOther = samplesRef
+
+for plot_sample in samplesRef:
+    tsample_Ref=[]
+    tsample_Ref.append(plot_sample) 
+# Open files
+    sampleDictRef=get_files(tsample_Ref,year,inDirRef)
+    sampleDictOther=get_files(tsample_Ref,year,inDirOther)
+
+    for plot in listofplots:
+        if plot in toexclude:
+            continue
+        draw_plot(sampleDictRef, sampleDictOther,  plot, True, False, False, True, lumi, year)
+        draw_plot(sampleDictRef, sampleDictOther,  plot, False, False, False, True, lumi, year)
+>>>>>>> Stashed changes
