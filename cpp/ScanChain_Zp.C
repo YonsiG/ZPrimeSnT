@@ -1551,20 +1551,24 @@ int ScanChain(TChain *ch, double genEventSumw, TString year, TString process, in
         }
       }
 
-      // Trigger object finding (match: dR<0.02)
-      bool atLeastSelectedMu_matchedToTrigObj = false;
-      vector<bool> muMatchedToTrigObj;
-      for ( int n = 0; n < nt.nTrigObj(); n++ ) {
+   bool MatchedToTriggerMuon=0; 
+   vector<bool> muMatchedToTrigObj;
+   bool atLeastSelectedMu_matchedToTrigObj = false;
+   for ( auto i_cand_muons : cand_muons )
+   {
+      MatchedToTriggerMuon=0;
+      for ( int n = 0; n < nt.nTrigObj(); n++ ) 
+      {
         if ( abs(nt.TrigObj_id().at(n)) != 13 ) continue;
-        if ( !(nt.TrigObj_filterBits().at(n) & 8) ) continue;
-        for ( auto i_cand_muons : cand_muons ) {
-	  if ( IsMatched( nt.Muon_eta().at(i_cand_muons), nt.Muon_phi().at(i_cand_muons), nt.TrigObj_eta().at(n), nt.TrigObj_phi().at(n), 0.02 ) ) {
-            muMatchedToTrigObj.push_back(true);
-            atLeastSelectedMu_matchedToTrigObj = true;
-          }
-          else muMatchedToTrigObj.push_back(false);
+        if ( !(nt.TrigObj_filterBits().at(n) & 8) ) continue;// 8 means 1mu https://cms-nanoaod-integration.web.cern.ch/integration/cms-swCMSSW_10_6_19/mc102X_doc.html#TrigObj
+	      if ( IsMatched( nt.Muon_eta().at(i_cand_muons), nt.Muon_phi().at(i_cand_muons), nt.TrigObj_eta().at(n), nt.TrigObj_phi().at(n), 0.02 ) ) {
+        MatchedToTriggerMuon=true;
+        atLeastSelectedMu_matchedToTrigObj = true;
         }
+      if (MatchedToTriggerMuon) muMatchedToTrigObj.push_back(true);
+      else muMatchedToTrigObj.push_back(false);
       }
+   }
 
       if ( !atLeastSelectedMu_matchedToTrigObj ) continue;
       total_number[4]++;
@@ -1605,7 +1609,7 @@ int ScanChain(TChain *ch, double genEventSumw, TString year, TString process, in
         TVector3 mu_1(Muon_p4.at(cand_muons[i]).Px(),Muon_p4.at(cand_muons[i]).Py(),Muon_p4.at(cand_muons[i]).Pz());
         for ( unsigned int j=i+1; j<cand_muons.size(); j++ ) {
           if ( nt.Muon_pdgId().at(cand_muons[i]) + nt.Muon_pdgId().at(cand_muons[j]) != 0 ) continue; // Opposite sign, same flavor
-//          if ( !(muMatchedToTrigObj[i] || muMatchedToTrigObj[j]) ) continue; // At least one muon in pair matched to HLT
+          if ( !(muMatchedToTrigObj[i] || muMatchedToTrigObj[j]) ) continue; // At least one muon in pair matched to HLT
           TVector3 mu_2(Muon_p4.at(cand_muons[j]).Px(),Muon_p4.at(cand_muons[j]).Py(),Muon_p4.at(cand_muons[j]).Pz());
           if ( !(IsSeparated( mu_1, mu_2, 0.02 ) ) ) continue; // 3D angle between muons > pi - 0.02
           float m_ll = (Muon_p4.at(cand_muons[i])+Muon_p4.at(cand_muons[j])).M();
@@ -2063,8 +2067,8 @@ int ScanChain(TChain *ch, double genEventSumw, TString year, TString process, in
         float dr_jmu2 = TMath::Sqrt( d_eta_2*d_eta_2+d_phi_2*d_phi_2 );
         // Reject jets if they are within dR = 0.4 of the candidate leptons
         if ( dr_jmu1 < 0.4 || dr_jmu2 < 0.4 ) continue;
-        if ( Jet_p4.at(jet).Pt() > 20 &&
-             fabs(nt.Jet_eta().at(jet)) < 2.5 &&
+        if ( Jet_p4.at(jet).Pt() >= 20 &&
+             fabs(nt.Jet_eta().at(jet)) <= 2.5 &&
              nt.Jet_jetId().at(jet) > 1 ) {
           bool isBTagMedium = false, isBTagTight = false;
           if ( nt.Jet_btagDeepFlavB().at(jet) > gconf.WP_DeepFlav_medium ) {
