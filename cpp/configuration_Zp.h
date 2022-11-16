@@ -25,7 +25,7 @@ void histoDefinition(map<TString, int> &nbins, map<TString, float> &low, map<TSt
   nbins.insert({"pfmet_phi", 65});
   low.insert({"pfmet_phi", -3.25});
   high.insert({"pfmet_phi", 3.25});
-  title.insert({"pfmet_phi", "PF MET #phi [GeV]"});
+  title.insert({"pfmet_phi", "PF MET #phi"});
 
   low.insert({"puppimet_pt", 25.0});
   high.insert({"puppimet_pt", 600.0});
@@ -42,7 +42,7 @@ void histoDefinition(map<TString, int> &nbins, map<TString, float> &low, map<TSt
   nbins.insert({"puppimet_phi", 65});
   low.insert({"puppimet_phi", -3.25});
   high.insert({"puppimet_phi", 3.25});
-  title.insert({"puppimet_phi", "PUPPI MET #phi [GeV]"});
+  title.insert({"puppimet_phi", "PUPPI MET #phi"});
 
   // Basic muon properties and masses
   //nbins.insert({"mmumu", 580}); // for fix 5 GeV binning
@@ -119,37 +119,57 @@ void histoDefinition(map<TString, int> &nbins, map<TString, float> &low, map<TSt
   nbins.insert({"mu1_dxy", 200});
   low.insert({"mu1_dxy", 0.001});
   high.insert({"mu1_dxy", 0.021});
-  title.insert({"mu1_dxy", "d_{xy} (leading #mu)"});
+  title.insert({"mu1_dxy", "|d_{xy}| (leading #mu) [cm]"});
 
   nbins.insert({"mu2_dxy", 200});
   low.insert({"mu2_dxy", 0.001});
   high.insert({"mu2_dxy", 0.021});
-  title.insert({"mu2_dxy", "d_{xy} (subleading #mu)"});
+  title.insert({"mu2_dxy", "|d_{xy}| (subleading #mu) [cm]"});
 
   nbins.insert({"mu1_dz", 100});
   low.insert({"mu1_dz", 0.001});
   high.insert({"mu1_dz", 0.101});
-  title.insert({"mu1_dz", "d_{z} (leading #mu)"});
+  title.insert({"mu1_dz", "|d_{z}| (leading #mu) [cm]"});
 
   nbins.insert({"mu2_dz", 100});
   low.insert({"mu2_dz", 0.001});
   high.insert({"mu2_dz", 0.101});
-  title.insert({"mu2_dz", "d_{z} (subleading #mu)"});
+  title.insert({"mu2_dz", "|d_{z}| (subleading #mu) [cm]"});
+
+  nbins.insert({"mu1_relPtErr", 100});
+  low.insert({"mu1_relPtErr", 0.001});
+  high.insert({"mu1_relPtErr", 1.001});
+  title.insert({"mu1_relPtErr", "Relative p_{T} error (leading #mu)"});
+
+  nbins.insert({"mu2_relPtErr", 100});
+  low.insert({"mu2_relPtErr", 0.001});
+  high.insert({"mu2_relPtErr", 1.001});
+  title.insert({"mu2_relPtErr", "Relative p_{T} error (subleading #mu)"});
+
+  nbins.insert({"mu1_tunepRelPt", 100});
+  low.insert({"mu1_tunepRelPt", 0.001});
+  high.insert({"mu1_tunepRelPt", 2.001});
+  title.insert({"mu1_tunepRelPt", "TuneP relative p_{T} (leading #mu)"});
+
+  nbins.insert({"mu2_tunepRelPt", 100});
+  low.insert({"mu2_tunepRelPt", 0.001});
+  high.insert({"mu2_tunepRelPt", 2.001});
+  title.insert({"mu2_tunepRelPt", "TuneP relative p_{T} (subleading #mu)"});
 
   nbins.insert({"mu1_trkRelIso", 100});
   low.insert({"mu1_trkRelIso", 0.001});
   high.insert({"mu1_trkRelIso", 0.051});
   title.insert({"mu1_trkRelIso", "Track iso./p_{T} (leading #mu)"});
 
-  nbins.insert({"mu1_trkAbsIso", 100});
-  low.insert({"mu1_trkAbsIso", 0.1});
-  high.insert({"mu1_trkAbsIso", 5.1});
-  title.insert({"mu1_trkAbsIso", "Track iso. (leading #mu)"});
-
   nbins.insert({"mu2_trkRelIso", 100});
   low.insert({"mu2_trkRelIso", 0.001});
   high.insert({"mu2_trkRelIso", 0.051});
   title.insert({"mu2_trkRelIso", "Track iso./p_{T} (subleading #mu)"});
+
+  nbins.insert({"mu1_trkAbsIso", 100});
+  low.insert({"mu1_trkAbsIso", 0.1});
+  high.insert({"mu1_trkAbsIso", 5.1});
+  title.insert({"mu1_trkAbsIso", "Track iso. (leading #mu)"});
 
   nbins.insert({"mu2_trkAbsIso", 100});
   low.insert({"mu2_trkAbsIso", 0.1});
@@ -227,10 +247,10 @@ void histoDefinition(map<TString, int> &nbins, map<TString, float> &low, map<TSt
   high.insert({"ele_extra_eta", 3});
   title.insert({"ele_extra_eta", "#eta (extra electron)"});
 
-  nbins.insert({"ele_extra_miniPFRelIso", 50});
-  low.insert({"ele_extra_miniPFRelIso", 0.01});
-  high.insert({"ele_extra_miniPFRelIso", 0.51});
-  title.insert({"ele_extra_miniPFRelIso", "PF mini-iso./p_{T} (extra electron)"});
+  //nbins.insert({"ele_extra_miniPFRelIso", 50});
+  //low.insert({"ele_extra_miniPFRelIso", 0.01});
+  //high.insert({"ele_extra_miniPFRelIso", 0.51});
+  //title.insert({"ele_extra_miniPFRelIso", "PF mini-iso./p_{T} (extra electron)"});
 
   // Extra lepton properties: Isotracks
   nbins.insert({"nExtra_lepIsoTracks", 6});
@@ -302,6 +322,26 @@ void histoDefinition(map<TString, int> &nbins, map<TString, float> &low, map<TSt
   low.insert({"nbtagDeepFlavB", 0});
   high.insert({"nbtagDeepFlavB", 5});
   title.insert({"nbtagDeepFlavB", "Number of b-tags (medium WP)"});
+
+  nbins.insert({"jet1_pt", 300}); // for fix 5 GeV binning
+  low.insert({"jet1_pt", 20});
+  high.insert({"jet1_pt", 1520});
+  title.insert({"jet1_pt", "p_{T} (leading jet) [GeV]"});
+
+  nbins.insert({"jet1_eta", 60});
+  low.insert({"jet1_eta", -3});
+  high.insert({"jet1_eta", 3});
+  title.insert({"jet1_eta", "#eta (leading jet) [GeV]"});
+
+  nbins.insert({"st_scalar_jet", 300}); // for fix 5 GeV binning
+  low.insert({"st_scalar_jet", 20});
+  high.insert({"st_scalar_jet", 1520});
+  title.insert({"st_scalar_jet", "Scalar sum of MET+#mu_{1}+#mu_{2}+Jet_{1} p_{T} [GeV]"});
+
+  nbins.insert({"st_vector_jet", 300}); // for fix 5 GeV binning
+  low.insert({"st_vector_jet", 20});
+  high.insert({"st_vector_jet", 1520});
+  title.insert({"st_vector_jet", "p_{T} of vector sum of MET+#mu_{1}+#mu_{2}+Jet_{1} [GeV]"});
 
   //nbins.insert({"bjet1_pt", 300}); // for fix 5 GeV binning
   low.insert({"bjet1_pt", 20});
@@ -449,22 +489,79 @@ void histoDefinition(map<TString, int> &nbins, map<TString, float> &low, map<TSt
   high.insert({"minDPhi_l_b", 3.2});
   title.insert({"minDPhi_l_b", "min #Delta#phi(#mu, b)"});
 
+  nbins.insert({"st_scalar_bjet", 300}); // for fix 5 GeV binning
+  low.insert({"st_scalar_bjet", 20});
+  high.insert({"st_scalar_bjet", 1520});
+  title.insert({"st_scalar_bjet", "Scalar sum of MET+#mu_{1}+#mu_{2}+b-jet_{1} p_{T} [GeV]"});
+
+  nbins.insert({"st_vector_bjet", 300}); // for fix 5 GeV binning
+  low.insert({"st_vector_bjet", 20});
+  high.insert({"st_vector_bjet", 1520});
+  title.insert({"st_vector_bjet", "p_{T} of vector sum of MET+#mu_{1}+#mu_{2}+b-jet_{1} [GeV]"});
+
   nbins.insert({"dPhi_ll_MET", 32});
   low.insert({"dPhi_ll_MET", 0});
   high.insert({"dPhi_ll_MET", 3.2});
   title.insert({"dPhi_ll_MET", "|#Delta#phi(#mu#mu,MET)|"});
 }
 
+void histo2DDefinition(map<TString, int> nbins, map<TString, float> low, map<TString, float> high, map<TString, TString> title,
+                       map<TString, int> &nbinsX, map<TString, float> &lowX, map<TString, float> &highX, map<TString, TString> &xtitle,
+                       map<TString, int> &nbinsY, map<TString, float> &lowY, map<TString, float> &highY, map<TString, TString> &ytitle) {
+
+  nbinsX.insert({"jet1_pt_VS_st_scalar_jet", nbins["jet1_pt"]});
+  lowX.insert({"jet1_pt_VS_st_scalar_jet", low["jet1_pt"]});
+  highX.insert({"jet1_pt_VS_st_scalar_jet", high["jet1_pt"]});
+  xtitle.insert({"jet1_pt_VS_st_scalar_jet", title["jet1_pt"]});
+  nbinsY.insert({"jet1_pt_VS_st_scalar_jet", nbins["st_scalar_jet"]});
+  lowY.insert({"jet1_pt_VS_st_scalar_jet", low["st_scalar_jet"]});
+  highY.insert({"jet1_pt_VS_st_scalar_jet", high["st_scalar_jet"]});
+  ytitle.insert({"jet1_pt_VS_st_scalar_jet", title["st_scalar_jet"]});
+
+  nbinsX.insert({"jet1_pt_VS_st_vector_jet", nbins["jet1_pt"]});
+  lowX.insert({"jet1_pt_VS_st_vector_jet", low["jet1_pt"]});
+  highX.insert({"jet1_pt_VS_st_vector_jet", high["jet1_pt"]});
+  xtitle.insert({"jet1_pt_VS_st_vector_jet", title["jet1_pt"]});
+  nbinsY.insert({"jet1_pt_VS_st_vector_jet", nbins["st_vector_jet"]});
+  lowY.insert({"jet1_pt_VS_st_vector_jet", low["st_vector_jet"]});
+  highY.insert({"jet1_pt_VS_st_vector_jet", high["st_vector_jet"]});
+  ytitle.insert({"jet1_pt_VS_st_vector_jet", title["st_vector_jet"]});
+
+  nbinsX.insert({"bjet1_pt_VS_st_scalar_bjet", 300/*nbins["bjet1_pt"]*/});
+  lowX.insert({"bjet1_pt_VS_st_scalar_bjet", low["bjet1_pt"]});
+  highX.insert({"bjet1_pt_VS_st_scalar_bjet", high["bjet1_pt"]});
+  xtitle.insert({"bjet1_pt_VS_st_scalar_bjet", title["bjet1_pt"]});
+  nbinsY.insert({"bjet1_pt_VS_st_scalar_bjet", nbins["st_scalar_bjet"]});
+  lowY.insert({"bjet1_pt_VS_st_scalar_bjet", low["st_scalar_bjet"]});
+  highY.insert({"bjet1_pt_VS_st_scalar_bjet", high["st_scalar_bjet"]});
+  ytitle.insert({"bjet1_pt_VS_st_scalar_bjet", title["st_scalar_bjet"]});
+
+  nbinsX.insert({"bjet1_pt_VS_st_vector_bjet", 300/*nbins["bjet1_pt"]*/});
+  lowX.insert({"bjet1_pt_VS_st_vector_bjet", low["bjet1_pt"]});
+  highX.insert({"bjet1_pt_VS_st_vector_bjet", high["bjet1_pt"]});
+  xtitle.insert({"bjet1_pt_VS_st_vector_bjet", title["bjet1_pt"]});
+  nbinsY.insert({"bjet1_pt_VS_st_vector_bjet", nbins["st_vector_bjet"]});
+  lowY.insert({"bjet1_pt_VS_st_vector_bjet", low["st_vector_bjet"]});
+  highY.insert({"bjet1_pt_VS_st_vector_bjet", high["st_vector_bjet"]});
+  ytitle.insert({"bjet1_pt_VS_st_vector_bjet", title["st_vector_bjet"]});
+}
+
 void mllbinDefinitionForBFF(vector<TString> &mllbin, map<TString, TString> &mllbinlabel) {
   mllbin.push_back("mllinclusive");
   mllbin.push_back("mll225to275");
   mllbin.push_back("mll315to385");
+  mllbin.push_back("mll360to440");
   mllbin.push_back("mll450to550");
+  mllbin.push_back("mll630to770");
+  mllbin.push_back("mll900to1100");
 
   mllbinlabel["mllinclusive"]="m_{#mu#mu} > 0 GeV";
   mllbinlabel["mll225to275"]="225 < m_{#mu#mu} < 275 GeV";
   mllbinlabel["mll315to385"]="315 < m_{#mu#mu} < 385 GeV";
+  mllbinlabel["mll360to440"]="360 < m_{#mu#mu} < 440 GeV";
   mllbinlabel["mll450to550"]="450 < m_{#mu#mu} < 550 GeV";
+  mllbinlabel["mll630to770"]="630 < m_{#mu#mu} < 770 GeV";
+  mllbinlabel["mll900to1100"]="900 < m_{#mu#mu} < 1100 GeV";
 }
 
 void mllbinDefinition(vector<TString> &mllbin, bool doMllBins, map<TString, TString> &mllbinlabel) {
